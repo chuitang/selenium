@@ -1,0 +1,26 @@
+{
+  "websites": [
+    {
+      "name": "example_site",
+      "url": "https://example.com",
+      "login_url": "https://example.com/login",
+      "login_config": {
+        "method": "form",
+        "username_selector": "#username",
+        "password_selector": "#password",
+        "submit_selector": "#login-button",
+        "username": "${USERNAME}",
+        "password": "${PASSWORD}"
+      },
+      "validation_config": {
+        "type": "url_check",
+        "success_url": "https://example.com/dashboard",
+        "success_selector": ".user-profile"
+      },
+      "retry_config": {
+        "max_retries": 3,
+        "retry_delay": 5
+      }
+    }
+  ]
+}

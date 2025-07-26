@@ -1,0 +1,2 @@
+[console_scripts]
+cookie-manager = cookie_manager.cli:main
