@@ -1,0 +1,75 @@
+# Cookie管理工具配置文件示例
+# 请复制此文件为 config.properties 并修改相应的值
+
+# ========== 网站配置 ==========
+# 目标网站URL (必需)
+target.url=https://example.com/dashboard
+
+# 登录页面URL (必需)  
+login.url=https://example.com/login
+
+# 验证Cookie有效性的URL (可选，默认使用target.url)
+validation.url=https://example.com/api/user/profile
+
+# ========== 登录配置 ==========
+# 登录用户名 (必需)
+login.username=your_username
+
+# 登录密码 (必需)
+login.password=your_password
+
+# 用户名输入框选择器 (默认: username)
+# 支持: ID选择器(#id)、Class选择器(.class)、Name属性(name)、CSS选择器([type="text"])、XPath选择器(//input[@name="username"])
+login.username.field=username
+
+# 密码输入框选择器 (默认: password)
+login.password.field=password
+
+# 登录按钮选择器 (默认: input[type='submit'])
+login.button.selector=input[type='submit']
+
+# 验证登录成功的页面元素选择器 (可选)
+validation.selector=.user-info
+
+# ========== 数据库配置 ==========
+# 数据库连接URL (默认: H2内存数据库)
+database.url=jdbc:h2:./cookiedb;AUTO_SERVER=TRUE
+
+# 数据库用户名 (默认: sa)
+database.username=sa
+
+# 数据库密码 (默认: 空)
+database.password=
+
+# ========== Cookie检查配置 ==========
+# Cookie有效性检查间隔(分钟) (默认: 30)
+cookie.check.interval.minutes=30
+
+# 最大重试次数 (默认: 3)
+cookie.max.retry.attempts=3
+
+# 重试延迟时间(秒) (默认: 10)
+cookie.retry.delay.seconds=10
+
+# ========== WebDriver配置 ==========
+# Chrome驱动路径 (可选，留空则使用系统PATH中的chromedriver)
+# Windows示例: C:\\tools\\chromedriver.exe
+# Linux示例: /usr/local/bin/chromedriver
+webdriver.path=
+
+# 是否使用无头模式 (默认: true)
+# true = 不显示浏览器窗口，false = 显示浏览器窗口
+webdriver.headless=true
+
+# 页面加载超时时间(秒) (默认: 30)
+webdriver.page.load.timeout.seconds=30
+
+# 元素查找隐式等待时间(秒) (默认: 10)
+webdriver.implicit.wait.seconds=10
+
+# ========== 高级配置 ==========
+# 日志级别 (可选: TRACE, DEBUG, INFO, WARN, ERROR)
+logging.level=INFO
+
+# 是否启用详细日志 (默认: false)
+logging.verbose=false
