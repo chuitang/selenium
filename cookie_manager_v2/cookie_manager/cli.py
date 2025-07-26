@@ -106,6 +106,10 @@ def init(config_path):
     console.print("\n💡 别忘了在 .env 文件中设置用户名和密码:")
     console.print("   USERNAME=your_username")
     console.print("   PASSWORD=your_password")
+    console.print("\n🌐 如果需要代理访问，可在 .env 文件中设置:")
+    console.print("   BROWSER__PROXY_SERVER=http://127.0.0.1:7890")
+    console.print("   BROWSER__PROXY_USERNAME=proxy_user  # 可选")
+    console.print("   BROWSER__PROXY_PASSWORD=proxy_pass  # 可选")
 
 @cli.command()
 def hello():

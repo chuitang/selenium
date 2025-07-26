@@ -42,14 +42,31 @@ class BrowserManager:
             self.playwright = await async_playwright().start()
             
         if self.browser is None:
+            # 准备启动参数
+            launch_args = [
+                '--no-sandbox',
+                '--disable-blink-features=AutomationControlled',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor'
+            ]
+            
+            # 准备代理配置
+            proxy_config = None
+            if self.settings.browser.proxy_server:
+                proxy_config = {
+                    "server": self.settings.browser.proxy_server
+                }
+                if self.settings.browser.proxy_username:
+                    proxy_config["username"] = self.settings.browser.proxy_username
+                if self.settings.browser.proxy_password:
+                    proxy_config["password"] = self.settings.browser.proxy_password
+                
+                logger.info("使用代理配置", proxy_server=self.settings.browser.proxy_server)
+            
             self.browser = await self.playwright.chromium.launch(
                 headless=self.settings.browser.headless,
-                args=[
-                    '--no-sandbox',
-                    '--disable-blink-features=AutomationControlled',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor'
-                ]
+                args=launch_args,
+                proxy=proxy_config
             )
             
         logger.info("浏览器启动成功", headless=self.settings.browser.headless)
@@ -78,14 +95,22 @@ class BrowserManager:
         if not self.browser:
             await self.start()
             
-        context = await self.browser.new_context(
-            viewport={
+        # 准备上下文选项
+        context_options = {
+            'viewport': {
                 'width': self.settings.browser.viewport_width,
                 'height': self.settings.browser.viewport_height
             },
-            user_agent=self.settings.browser.user_agent,
-            extra_http_headers=website_config.custom_headers or {},
-        )
+            'extra_http_headers': website_config.custom_headers or {},
+        }
+        
+        # 设置用户代理
+        if self.settings.browser.user_agent:
+            context_options['user_agent'] = self.settings.browser.user_agent
+        
+        # 注意：代理已经在browser级别设置，context不需要重复设置
+            
+        context = await self.browser.new_context(**context_options)
         
         # 设置超时
         context.set_default_timeout(self.settings.browser.timeout * 1000)

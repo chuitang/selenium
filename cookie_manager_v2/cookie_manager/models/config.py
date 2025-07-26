@@ -45,6 +45,18 @@ class BrowserConfig(BaseModel):
     user_agent: Optional[str] = Field(default=None, description="用户代理")
     viewport_width: int = Field(default=1920, description="视口宽度")
     viewport_height: int = Field(default=1080, description="视口高度")
+    
+    # 代理配置
+    proxy_server: Optional[str] = Field(default=None, description="代理服务器地址 (例如: http://127.0.0.1:7890)")
+    proxy_username: Optional[str] = Field(default=None, description="代理用户名")
+    proxy_password: Optional[str] = Field(default=None, description="代理密码")
+    
+    @field_validator('proxy_server')
+    @classmethod
+    def validate_proxy_server(cls, v: Optional[str]) -> Optional[str]:
+        if v and not v.startswith(('http://', 'https://', 'socks4://', 'socks5://')):
+            raise ValueError('代理服务器地址必须以http://、https://、socks4://或socks5://开头')
+        return v
 
 
 class SchedulerConfig(BaseModel):
