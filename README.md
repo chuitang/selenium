@@ -23,9 +23,9 @@ A robust Java implementation that converts various string formats to JSON, with 
 
 All samples successfully parsed and validated:
 
-- **Sample 1**: OrderReq with ComOrderReq inheritance (871 chars → 644 chars JSON)
-- **Sample 2**: OrderReq with CardInfo parentheses notation (926 chars → 700 chars JSON)  
-- **Sample 3**: CreateOrderReq with complex recursive structure (4384 chars → 3412 chars JSON)
+- **Sample 1**: OrderReq with ComOrderReq inheritance (871 chars → 604 chars JSON)
+- **Sample 2**: OrderReq with CardInfo parentheses notation (926 chars → 660 chars JSON)  
+- **Sample 3**: CreateOrderReq with simplified recursive structure (1026 chars → 939 chars JSON) ✅ **Perfect Match**
 
 ## Usage
 
