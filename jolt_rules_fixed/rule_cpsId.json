@@ -3,9 +3,17 @@
     "operation": "shift",
     "spec": {
       "cpsId": {
-        "*": "cpsId",
-        "": "=null"
+        "": "cpsId_empty",
+        "*": "cpsId_value"
       },
+      "*": "&"
+    }
+  },
+  {
+    "operation": "shift",
+    "spec": {
+      "cpsId_value": "cpsId",
+      "cpsId_empty": "=null",
       "*": "&"
     }
   },

@@ -3,8 +3,8 @@
     "operation": "shift",
     "spec": {
       "cpsId": {
-        "*": "cpsId",
-        "": "=null"
+        "": "temp_empty_cpsId",
+        "*": "cpsId"
       },
       "*": "&"
     }
@@ -13,6 +13,12 @@
     "operation": "default",
     "spec": {
       "cpsId": "${cpsId1111}"
+    }
+  },
+  {
+    "operation": "remove",
+    "spec": {
+      "temp_*": ""
     }
   }
 ]

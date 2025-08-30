@@ -2,17 +2,14 @@
   {
     "operation": "shift",
     "spec": {
-      "cpsId": {
-        "*": "cpsId",
-        "": "=null"
-      },
+      "salePortal": "salePortal",
       "*": "&"
     }
   },
   {
     "operation": "default",
     "spec": {
-      "cpsId": "${cpsId1111}"
+      "salePortal": "${salePortal00}"
     }
   }
 ]

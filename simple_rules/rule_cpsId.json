@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "shift",
+    "spec": {
+      "cpsId": {
+        "": "=null",
+        "*": "=literal('${cpsId1111}')"
+      },
+      "*": "&"
+    }
+  }
+]

@@ -1,0 +1,8 @@
+[
+  {
+    "operation": "default",
+    "spec": {
+      "cpsId": "${cpsId1111}"
+    }
+  }
+]

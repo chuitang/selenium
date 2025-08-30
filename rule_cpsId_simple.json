@@ -3,8 +3,7 @@
     "operation": "shift",
     "spec": {
       "cpsId": {
-        "*": "cpsId",
-        "": "=null"
+        "*": "cpsId"
       },
       "*": "&"
     }

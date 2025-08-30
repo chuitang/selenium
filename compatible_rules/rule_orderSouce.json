@@ -2,17 +2,14 @@
   {
     "operation": "shift",
     "spec": {
-      "cpsId": {
-        "*": "cpsId",
-        "": "=null"
-      },
+      "orderSouce": "orderSouce",
       "*": "&"
     }
   },
   {
     "operation": "default",
     "spec": {
-      "cpsId": "${cpsId1111}"
+      "orderSouce": "${orderSouce00}"
     }
   }
 ]
