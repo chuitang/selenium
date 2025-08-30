@@ -1,0 +1,58 @@
+{
+  "cpsId": "12345",
+  "cpsWi": "67890",
+  "seqNo": "SEQ001",
+  "orderItemReqArgs": [
+    {
+      "itemId": "ITEM001",
+      "itemPro": {
+        "dp_group": "GROUP001",
+        "dp_package_code": "PKG001"
+      },
+      "subOrderItemReqArgs": [
+        {
+          "itemId": "SUBITEM001",
+          "itemPro": {
+            "dp_group": "SUBGROUP001",
+            "dp_package_code": "SUBPKG001"
+          }
+        },
+        {
+          "itemId": "SUBITEM002",
+          "itemPro": {
+            "dp_group": "SUBGROUP002",
+            "dp_package_code": "SUBPKG002"
+          }
+        }
+      ]
+    },
+    {
+      "itemId": "ITEM002",
+      "itemPro": {
+        "dp_group": "GROUP002",
+        "dp_package_code": "PKG002"
+      },
+      "subOrderItemReqArgs": [
+        {
+          "itemId": "SUBITEM003",
+          "itemPro": {
+            "dp_group": "SUBGROUP003",
+            "dp_package_code": "SUBPKG003"
+          }
+        }
+      ]
+    }
+  ],
+  "couponList": [
+    {
+      "couponCodes": "COUPON123"
+    }
+  ],
+  "orderSouce": "ONLINE",
+  "salePortal": "PORTAL001",
+  "carrierInvoiceVOs": [
+    {
+      "carrierCode": "CARRIER001"
+    }
+  ]
+}
