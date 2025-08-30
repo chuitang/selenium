@@ -1,0 +1,37 @@
+{
+  "cpsId": null,
+  "cpsWi": "",
+  "seqNo": "${seqNo1111}",
+  "orderItemReqArgs": [
+    {
+      "itemId": "${itemId00}",
+      "itemPro": {
+        "dp_group": null,
+        "dp_package_code": ""
+      },
+      "subOrderItemReqArgs": [
+        {
+          "itemId": "",
+          "itemPro": {
+            "dp_group": "${dp_group0000}"
+          }
+        }
+      ]
+    },
+    {
+      "itemId": "${itemId01}"
+    }
+  ],
+  "couponList": [
+    {
+      "couponCodes": ""
+    }
+  ],
+  "orderSouce": "${orderSouce00}",
+  "salePortal": "${salePortal00}",
+  "carrierInvoiceVOs": [
+    {
+      "carrierCode": "VMALL-HUAWEIDEVICE"
+    }
+  ]
+}

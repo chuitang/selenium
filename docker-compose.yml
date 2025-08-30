@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  jolt-service:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JOLT_RULES_PATH=classpath:
+      - JOLT_CACHE_ENABLED=true
+    volumes:
+      - ./src/main/resources:/app/resources:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/jolt/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped

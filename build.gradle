@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+// Java版本配置 - 推荐使用Java 8或更高版本
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Jolt核心库
+    implementation 'com.bazaarvoice.jolt:jolt-core:0.1.7'
+    implementation 'com.bazaarvoice.jolt:json-utils:0.1.7'
+    
+    // Jackson JSON处理
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.15.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    
+    // 日志框架
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    
+    // 测试依赖
+    testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClass = 'com.example.JoltTransformationExample'
+}
+
+test {
+    useJUnit()
+}

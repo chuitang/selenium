@@ -1,0 +1,8 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_package_code": "=if(@(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_package_code) != null && @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_package_code) != '', '${dp_package_code0001}', @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_package_code))"
+    }
+  }
+]
