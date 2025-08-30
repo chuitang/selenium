@@ -1,0 +1,8 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_group": "=if(@(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_group) != null && @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_group) != '', '${dp_group0001}', @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemPro.dp_group))"
+    }
+  }
+]

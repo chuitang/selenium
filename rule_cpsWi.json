@@ -1,0 +1,8 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "cpsWi": "=if(@(1,cpsWi) != null && @(1,cpsWi) != '', '${cpsWi1111}', @(1,cpsWi))"
+    }
+  }
+]
