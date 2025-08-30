@@ -532,15 +532,23 @@ public class StringToJsonParser {
      */
     public static void main(String[] args) {
         try {
-            String input = "OrderReq{,cpsId=999,isCpsCreate=false,messageCode=null,seqNo=,ComOrderReq{itemReqArgs=[ItemArg{itemId=213548, mainSkuCode=, itemProp={}, subOrderItemReqArgs=null}], paymentType=n***, couponList=[], salePortal=3, imeiCode=*,invoiceVOs=[Invoice{                carrierCode=GGGG-SERVICE,                 invoiceType=61,                 invoiceTitle=***,                 vat=VatInfo{                isInvoicePayer=null,                 industry=***,                 province=null,                 city=null},                 vatInvoiceIndia=null,                 delivery=DeliveryInfo{                zipCode=*,                 updateTime=null},                 invoceExtParams={}}], voucher=VoucherVo {usingVoucher:false}, recycleInfo=RecycleInfo [recycleType=null, recycleAppCode=null], custInfoKey=, McpRequestBase{portal=2, version=1, lang=zh-CN, country=CN, eueid=***}}}";
+            // Test original sample
+            String input1 = "OrderReq{,cpsId=999,isCpsCreate=false,messageCode=null,seqNo=,ComOrderReq{itemReqArgs=[ItemArg{itemId=213548, mainSkuCode=, itemProp={}, subOrderItemReqArgs=null}], paymentType=n***, couponList=[], salePortal=3, imeiCode=*,invoiceVOs=[Invoice{                carrierCode=GGGG-SERVICE,                 invoiceType=61,                 invoiceTitle=***,                 vat=VatInfo{                isInvoicePayer=null,                 industry=***,                 province=null,                 city=null},                 vatInvoiceIndia=null,                 delivery=DeliveryInfo{                zipCode=*,                 updateTime=null},                 invoceExtParams={}}], voucher=VoucherVo {usingVoucher:false}, recycleInfo=RecycleInfo [recycleType=null, recycleAppCode=null], custInfoKey=, McpRequestBase{portal=2, version=1, lang=zh-CN, country=CN, eueid=***}}}";
             
-            String result = parseToJson(input);
-            System.out.println("Parsed JSON:");
-            System.out.println(result);
+            System.out.println("=== Sample 1 ===");
+            String result1 = parseToJson(input1);
+            System.out.println("Result: " + result1);
+            
+            // Test new sample with CardInfo
+            String input2 = "OrderReq{,cpsId=999,isCpsCreate=false,messageCode=null,seqNo=,ComOrderReq{itemReqArgs=[ItemArg{itemId=213548, mainSkuCode=, itemProp={}, subOrderItemReqArgs=null}], paymentType=n***, couponList=[], salePortal=3, imeiCode=*,invoiceVOs=[Invoice{                carrierCode=GGGG-SERVICE,                 invoiceType=61,                 invoiceTitle=***,                 vat=VatInfo{                isInvoicePayer=null,                 industry=***,                 province=null,                 city=null},                 vatInvoiceIndia=null,                 delivery=DeliveryInfo{                zipCode=*,                 updateTime=null},                 invoceExtParams={}}], voucher=VoucherVo {usingVoucher:false}, recycleInfo=RecycleInfo [recycleType=null, recycleAppCode=null], custInfoKey=, cardList=[CardInfo(activityCode=AAA, packageCode=BBB)],McpRequestBase{portal=2, version=1, lang=zh-CN, country=CN, eueid=***}}}";
+            
+            System.out.println("\n=== Sample 2 (with CardInfo) ===");
+            String result2 = parseToJson(input2);
+            System.out.println("Result: " + result2);
             
             // Pretty print
             ObjectMapper prettyMapper = new ObjectMapper();
-            Object json = prettyMapper.readValue(result, Object.class);
+            Object json = prettyMapper.readValue(result2, Object.class);
             String prettyJson = prettyMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             System.out.println("\nPretty printed:");
             System.out.println(prettyJson);
