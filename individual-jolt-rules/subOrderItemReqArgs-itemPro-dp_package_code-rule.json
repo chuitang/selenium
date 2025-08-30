@@ -1,0 +1,18 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "*": {
+          "subOrderItemReqArgs": {
+            "*": {
+              "itemPro": {
+                "dp_package_code": "=if(@(1,dp_package_code) != null && @(1,dp_package_code) != '', concat('${dp_package_code', @(6,&), @(4,&), '}'), @(1,dp_package_code))"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

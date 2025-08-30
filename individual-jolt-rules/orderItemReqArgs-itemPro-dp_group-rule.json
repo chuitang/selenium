@@ -1,0 +1,14 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "*": {
+          "itemPro": {
+            "dp_group": "=if(@(1,dp_group) != null && @(1,dp_group) != '', concat('${dp_group', @(4,&), '}'), @(1,dp_group))"
+          }
+        }
+      }
+    }
+  }
+]

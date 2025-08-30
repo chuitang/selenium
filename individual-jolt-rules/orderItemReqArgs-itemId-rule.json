@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "*": {
+          "itemId": "=concat('${itemId', @(2,&), '}')"
+        }
+      }
+    }
+  }
+]

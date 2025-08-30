@@ -1,0 +1,128 @@
+[
+  {
+    "operation": "shift",
+    "spec": {
+      // Simple parameter transformations
+      "cpsId": {
+        "*": "cpsId"
+      },
+      "cpsWi": {
+        "*": "cpsWi"
+      },
+      "seqNo": {
+        "*": "seqNo"
+      },
+      "orderSouce": "orderSouce",
+      "salePortal": "salePortal",
+      
+      // Array transformations for orderItemReqArgs
+      "orderItemReqArgs": {
+        "*": {
+          "itemId": "orderItemReqArgs[&1].itemId",
+          "itemPro": {
+            "dp_group": {
+              "*": "orderItemReqArgs[&2].itemPro.dp_group"
+            },
+            "dp_package_code": {
+              "*": "orderItemReqArgs[&2].itemPro.dp_package_code"
+            },
+            "*": "orderItemReqArgs[&2].itemPro.&"
+          },
+          "subOrderItemReqArgs": {
+            "*": {
+              "itemId": {
+                "*": "orderItemReqArgs[&3].subOrderItemReqArgs[&1].itemId"
+              },
+              "itemPro": {
+                "dp_group": {
+                  "*": "orderItemReqArgs[&4].subOrderItemReqArgs[&2].itemPro.dp_group"
+                },
+                "dp_package_code": {
+                  "*": "orderItemReqArgs[&4].subOrderItemReqArgs[&2].itemPro.dp_package_code"
+                },
+                "*": "orderItemReqArgs[&4].subOrderItemReqArgs[&2].itemPro.&"
+              },
+              "*": "orderItemReqArgs[&3].subOrderItemReqArgs[&1].&"
+            }
+          },
+          "*": "orderItemReqArgs[&1].&"
+        }
+      },
+      
+      // Array transformations for couponList
+      "couponList": {
+        "*": {
+          "couponCodes": {
+            "*": "couponList[&2].couponCodes"
+          },
+          "*": "couponList[&1].&"
+        }
+      },
+      
+      // Array transformations for carrierInvoiceVOs
+      "carrierInvoiceVOs": {
+        "*": {
+          "carrierCode": "carrierInvoiceVOs[&1].carrierCode",
+          "*": "carrierInvoiceVOs[&1].&"
+        }
+      },
+      
+      // Pass through all other fields
+      "*": "&"
+    }
+  },
+  {
+    "operation": "default",
+    "spec": {
+      // Set default values for simple parameters when they exist and are not empty
+      "cpsId": "${cpsId1111}",
+      "cpsWi": "${cpsWi1111}",
+      "seqNo": "${seqNo1111}",
+      "orderSouce": "${orderSouce00}",
+      "salePortal": "${salePortal00}"
+    }
+  },
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      // Transform orderItemReqArgs array items
+      "orderItemReqArgs": {
+        "*": {
+          // Always replace itemId
+          "itemId": "=concat('${itemId', @(2,&), '}')",
+          
+          // Conditionally replace itemPro fields if they exist and are not empty
+          "itemPro": {
+            "dp_group": "=if(@(1,dp_group) != null && @(1,dp_group) != '', concat('${dp_group', @(4,&), '}'), @(1,dp_group))",
+            "dp_package_code": "=if(@(1,dp_package_code) != null && @(1,dp_package_code) != '', concat('${dp_package_code', @(4,&), '}'), @(1,dp_package_code))"
+          },
+          
+          // Transform subOrderItemReqArgs if they exist
+          "subOrderItemReqArgs": {
+            "*": {
+              "itemId": "=if(@(1,itemId) != null && @(1,itemId) != '', concat('${itemId', @(4,&), @(2,&), '}'), @(1,itemId))",
+              "itemPro": {
+                "dp_group": "=if(@(1,dp_group) != null && @(1,dp_group) != '', concat('${dp_group', @(6,&), @(4,&), '}'), @(1,dp_group))",
+                "dp_package_code": "=if(@(1,dp_package_code) != null && @(1,dp_package_code) != '', concat('${dp_package_code', @(6,&), @(4,&), '}'), @(1,dp_package_code))"
+              }
+            }
+          }
+        }
+      },
+      
+      // Transform couponList array items
+      "couponList": {
+        "*": {
+          "couponCodes": "=if(@(1,couponCodes) != null && @(1,couponCodes) != '', '${couponCodes0000}', @(1,couponCodes))"
+        }
+      },
+      
+      // Transform carrierInvoiceVOs array items with condition
+      "carrierInvoiceVOs": {
+        "*": {
+          "carrierCode": "=if(@(1,carrierCode) != null && @(1,carrierCode) != '' && @(1,carrierCode) != 'VMALL-HUAWEIDEVICE', '${carrierCode0000}', @(1,carrierCode))"
+        }
+      }
+    }
+  }
+]

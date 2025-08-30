@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "carrierInvoiceVOs": {
+        "*": {
+          "carrierCode": "=if(@(1,carrierCode) != null && @(1,carrierCode) != '' && @(1,carrierCode) != 'VMALL-HUAWEIDEVICE', '${carrierCode0000}', @(1,carrierCode))"
+        }
+      }
+    }
+  }
+]

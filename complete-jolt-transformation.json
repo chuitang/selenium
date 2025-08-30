@@ -1,0 +1,54 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      // Simple parameter transformations - replace if not empty
+      "cpsId": "=if(@(1,cpsId) != null && @(1,cpsId) != '', '${cpsId1111}', @(1,cpsId))",
+      "cpsWi": "=if(@(1,cpsWi) != null && @(1,cpsWi) != '', '${cpsWi1111}', @(1,cpsWi))",
+      "seqNo": "=if(@(1,seqNo) != null && @(1,seqNo) != '', '${seqNo1111}', @(1,seqNo))",
+      
+      // Always replace these parameters
+      "orderSouce": "${orderSouce00}",
+      "salePortal": "${salePortal00}",
+      
+      // Transform orderItemReqArgs array
+      "orderItemReqArgs": {
+        "*": {
+          // Always replace itemId with index-based suffix
+          "itemId": "=concat('${itemId', formatNumber(@(2,&), '00'), '}')",
+          
+          // Conditionally replace itemPro fields if they exist and are not empty
+          "itemPro": {
+            "dp_group": "=if(@(1,dp_group) != null && @(1,dp_group) != '', concat('${dp_group', formatNumber(@(4,&), '00'), '}'), @(1,dp_group))",
+            "dp_package_code": "=if(@(1,dp_package_code) != null && @(1,dp_package_code) != '', concat('${dp_package_code', formatNumber(@(4,&), '00'), '}'), @(1,dp_package_code))"
+          },
+          
+          // Transform subOrderItemReqArgs if they exist
+          "subOrderItemReqArgs": {
+            "*": {
+              "itemId": "=if(@(1,itemId) != null && @(1,itemId) != '', concat('${itemId', formatNumber(@(4,&), '00'), formatNumber(@(2,&), '00'), '}'), @(1,itemId))",
+              "itemPro": {
+                "dp_group": "=if(@(1,dp_group) != null && @(1,dp_group) != '', concat('${dp_group', formatNumber(@(6,&), '00'), formatNumber(@(4,&), '00'), '}'), @(1,dp_group))",
+                "dp_package_code": "=if(@(1,dp_package_code) != null && @(1,dp_package_code) != '', concat('${dp_package_code', formatNumber(@(6,&), '00'), formatNumber(@(4,&), '00'), '}'), @(1,dp_package_code))"
+              }
+            }
+          }
+        }
+      },
+      
+      // Transform couponList array
+      "couponList": {
+        "*": {
+          "couponCodes": "=if(@(1,couponCodes) != null && @(1,couponCodes) != '', '${couponCodes0000}', @(1,couponCodes))"
+        }
+      },
+      
+      // Transform carrierInvoiceVOs array with special condition
+      "carrierInvoiceVOs": {
+        "*": {
+          "carrierCode": "=if(@(1,carrierCode) != null && @(1,carrierCode) != '' && @(1,carrierCode) != 'VMALL-HUAWEIDEVICE', '${carrierCode0000}', @(1,carrierCode))"
+        }
+      }
+    }
+  }
+]
