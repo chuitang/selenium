@@ -1,4 +1,6 @@
 com/example/jolt/JoltTransformationService.class
+com/example/TestCompatibleRules.class
 com/example/JoltUsageExample.class
 com/example/jolt/JoltTransformationExample.class
 com/example/JoltTransformationExecutor.class
+com/example/TestNewJson.class

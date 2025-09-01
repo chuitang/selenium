@@ -1,0 +1,26 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "cpsId": "${cpsId1111}",
+      "cpsWi": "${cpsWi1111}",
+      "seqNo": "${seqNo1111}",
+      "orderSouce": "${orderSouce00}",
+      "salePortal": "${salePortal00}",
+      "orderItemReqArgs": {
+        "0": {
+          "itemId": "${itemId00}",
+          "itemProp": {
+            "dp_group": "${dp_group00}",
+            "dp_package_code": "${dp_package_code00}"
+          }
+        }
+      },
+      "carrierInvoiceVOs": {
+        "0": {
+          "carrierCode": "${carrierCode0000}"
+        }
+      }
+    }
+  }
+]

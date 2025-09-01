@@ -1,0 +1,22 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "cpsId": "${cpsId1111}",
+      "cpsWi": "${cpsWi1111}",
+      "seqNo": "${seqNo1111}",
+      "orderSouce": "${orderSouce00}",
+      "salePortal": "${salePortal00}",
+      "orderItemReqArgs": {
+        "0": {
+          "itemId": "${itemId00}"
+        }
+      },
+      "carrierInvoiceVOs": {
+        "0": {
+          "carrierCode": "${carrierCode0000}"
+        }
+      }
+    }
+  }
+]
