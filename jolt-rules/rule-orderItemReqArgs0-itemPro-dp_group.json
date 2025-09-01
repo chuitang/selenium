@@ -5,7 +5,7 @@
       "orderItemReqArgs": {
         "0": {
           "itemPro": {
-            "dp_group": "=if(@(1,orderItemReqArgs[0].itemPro.dp_group) != null && @(1,orderItemReqArgs[0].itemPro.dp_group) != '', '${dp_group00}', @(1,orderItemReqArgs[0].itemPro.dp_group))"
+            "dp_group": ", "
           }
         }
       }

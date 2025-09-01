@@ -2,7 +2,7 @@
   {
     "operation": "modify-overwrite-beta",
     "spec": {
-      "cpsId": "=if(@(1,cpsId) != null && @(1,cpsId) != '', '${cpsId1111}', @(1,cpsId))"
+      "cpsId": "${cpsId1111}"
     }
   }
 ]

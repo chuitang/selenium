@@ -7,7 +7,7 @@
           "subOrderItemReqArgs": {
             "0": {
               "itemPro": {
-                "dp_package_code": "=if(@(1,orderItemReqArgs[0].subOrderItemReqArgs[0].itemPro.dp_package_code) != null && @(1,orderItemReqArgs[0].subOrderItemReqArgs[0].itemPro.dp_package_code) != '', '${dp_package_code0000}', @(1,orderItemReqArgs[0].subOrderItemReqArgs[0].itemPro.dp_package_code))"
+                "dp_package_code": ", "
               }
             }
           }

@@ -2,7 +2,7 @@
   {
     "operation": "modify-overwrite-beta",
     "spec": {
-      "seqNo": "=if(@(1,seqNo) != null && @(1,seqNo) != '', '${seqNo1111}', @(1,seqNo))"
+      "seqNo": "${seqNo1111}"
     }
   }
 ]

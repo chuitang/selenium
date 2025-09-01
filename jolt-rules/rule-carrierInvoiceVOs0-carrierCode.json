@@ -4,7 +4,7 @@
     "spec": {
       "carrierInvoiceVOs": {
         "0": {
-          "carrierCode": "=if(@(1,carrierInvoiceVOs[0].carrierCode) != null && @(1,carrierInvoiceVOs[0].carrierCode) != '' && @(1,carrierInvoiceVOs[0].carrierCode) != 'VMALL-HUAWEIDEVICE', '${carrierCode0000}', @(1,carrierInvoiceVOs[0].carrierCode))"
+          "carrierCode": "${carrierCode0000}"
         }
       }
     }

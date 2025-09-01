@@ -6,7 +6,7 @@
         "0": {
           "subOrderItemReqArgs": {
             "1": {
-              "itemId": "=if(@(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemId) != null && @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemId) != '', '${itemId0001}', @(1,orderItemReqArgs[0].subOrderItemReqArgs[1].itemId))"
+              "itemId": ", "
             }
           }
         }
