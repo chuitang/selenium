@@ -1,0 +1,19 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "salePortal": "${salePortal00}",
+      "orderSouce": "${orderSouce00}",
+      "orderItemReqArgs": {
+        "*": {
+          "itemId": "${itemId00}",
+          "subOrderItemReqArgs": {
+            "*": {
+              "itemId": "${itemId0000}"
+            }
+          }
+        }
+      }
+    }
+  }
+]
