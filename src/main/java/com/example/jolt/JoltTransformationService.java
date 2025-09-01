@@ -42,18 +42,24 @@ public class JoltTransformationService {
      */
     public static JoltTransformationService fromFile(String rulesFilePath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        List<Object> chainrSpecJSON = JsonUtils.jsonToList(
-            mapper.readTree(new java.io.File(rulesFilePath))
-        );
+        JsonNode rulesNode = mapper.readTree(new java.io.File(rulesFilePath));
+        List<Object> chainrSpecJSON = JsonUtils.jsonToList(rulesNode.toString());
         
-        JoltTransformationService service = new JoltTransformationService();
-        service.chainr = Chainr.fromSpec(chainrSpecJSON);
-        return service;
+        return new JoltTransformationService(chainrSpecJSON);
     }
     
     private JoltTransformationService() {
         this.objectMapper = new ObjectMapper();
         this.chainr = null;
+    }
+    
+    /**
+     * 构造函数，使用提供的JOLT规则列表
+     * @param chainrSpecJSON JOLT规则列表
+     */
+    private JoltTransformationService(List<Object> chainrSpecJSON) {
+        this.objectMapper = new ObjectMapper();
+        this.chainr = Chainr.fromSpec(chainrSpecJSON);
     }
     
     /**
