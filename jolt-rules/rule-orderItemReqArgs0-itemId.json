@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "0": {
+          "itemId": "${itemId00}"
+        }
+      }
+    }
+  }
+]

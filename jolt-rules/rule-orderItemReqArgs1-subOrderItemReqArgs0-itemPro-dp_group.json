@@ -1,0 +1,18 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "1": {
+          "subOrderItemReqArgs": {
+            "0": {
+              "itemPro": {
+                "dp_group": "=if(@(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemPro.dp_group) != null && @(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemPro.dp_group) != '', '${dp_group0100}', @(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemPro.dp_group))"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

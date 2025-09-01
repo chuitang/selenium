@@ -1,0 +1,12 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "couponList": {
+        "0": {
+          "couponCodes": "=if(@(1,couponList[0].couponCodes) != null && @(1,couponList[0].couponCodes) != '', '${couponCodes0000}', @(1,couponList[0].couponCodes))"
+        }
+      }
+    }
+  }
+]

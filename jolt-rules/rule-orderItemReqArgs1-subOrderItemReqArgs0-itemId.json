@@ -1,0 +1,16 @@
+[
+  {
+    "operation": "modify-overwrite-beta",
+    "spec": {
+      "orderItemReqArgs": {
+        "1": {
+          "subOrderItemReqArgs": {
+            "0": {
+              "itemId": "=if(@(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemId) != null && @(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemId) != '', '${itemId0100}', @(1,orderItemReqArgs[1].subOrderItemReqArgs[0].itemId))"
+            }
+          }
+        }
+      }
+    }
+  }
+]
