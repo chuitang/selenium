@@ -20,12 +20,12 @@ public class JsonReplacer {
         // 正则表达式匹配 "key":null 模式
         Pattern nullPattern = Pattern.compile("\"([^\"]+)\"\\s*:\\s*null");
         Matcher nullMatcher = nullPattern.matcher(jsonString);
-        String result = nullMatcher.replaceAll("\"$1\":(null)");
+        String result = nullMatcher.replaceAll("\"$1\":\\(null\\)");
         
         // 正则表达式匹配 "key":[] 模式
         Pattern emptyArrayPattern = Pattern.compile("\"([^\"]+)\"\\s*:\\s*\\[\\s*\\]");
         Matcher emptyArrayMatcher = emptyArrayPattern.matcher(result);
-        result = emptyArrayMatcher.replaceAll("\"$1\":([])");
+                result = emptyArrayMatcher.replaceAll("\"$1\":\\(\\[\\]\\)");
         
         return result;
     }
