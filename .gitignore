@@ -1,0 +1,25 @@
+# Maven
+**/target/
+**/.mvn/
+
+# IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+**/*.log
+
+# Build outputs
+**/out/
+**/build/
+
+# Others
+.env
+
