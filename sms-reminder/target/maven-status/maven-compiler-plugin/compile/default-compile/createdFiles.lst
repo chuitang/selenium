@@ -1,0 +1,10 @@
+com/example/smsreminder/model/ReminderTask.class
+com/example/smsreminder/repository/ReminderTaskRepository.class
+com/example/smsreminder/SmsReminderApplication.class
+com/example/smsreminder/model/TaskStatus.class
+com/example/smsreminder/service/SmsSender.class
+com/example/smsreminder/service/ConsoleSmsSender.class
+com/example/smsreminder/service/TaskSchedulerService.class
+com/example/smsreminder/controller/TaskController.class
+com/example/smsreminder/config/WebConfig.class
+com/example/smsreminder/controller/CompletionController.class
