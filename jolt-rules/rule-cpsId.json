@@ -1,8 +1,0 @@
-[
-  {
-    "operation": "modify-overwrite-beta",
-    "spec": {
-      "cpsId": "${cpsId1111}"
-    }
-  }
-]
