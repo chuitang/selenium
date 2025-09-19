@@ -1,0 +1,63 @@
+version: '3.8'
+
+# Docker Compose代理配置示例
+
+services:
+  # 示例服务1: Web应用
+  webapp:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    environment:
+      - HTTP_PROXY=http://proxy.example.com:8080
+      - HTTPS_PROXY=http://proxy.example.com:8080
+      - NO_PROXY=localhost,127.0.0.1,.corp
+    networks:
+      - app-network
+
+  # 示例服务2: 需要网络访问的应用
+  api-service:
+    image: python:3.9-slim
+    environment:
+      - HTTP_PROXY=http://proxy.example.com:8080
+      - HTTPS_PROXY=http://proxy.example.com:8080
+      - NO_PROXY=localhost,127.0.0.1,.corp
+    command: >
+      bash -c "
+        pip install requests &&
+        python -c 'import requests; print(requests.get(\"https://httpbin.org/ip\").json())'
+      "
+    networks:
+      - app-network
+
+  # 示例服务3: 使用环境变量文件
+  database:
+    image: postgres:13
+    env_file:
+      - proxy.env
+    environment:
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpass
+    networks:
+      - app-network
+
+  # 示例服务4: 构建时使用代理
+  custom-app:
+    build:
+      context: .
+      dockerfile: dockerfile-with-proxy
+      args:
+        - HTTP_PROXY=http://proxy.example.com:8080
+        - HTTPS_PROXY=http://proxy.example.com:8080
+        - NO_PROXY=localhost,127.0.0.1,.corp
+    environment:
+      - HTTP_PROXY=http://proxy.example.com:8080
+      - HTTPS_PROXY=http://proxy.example.com:8080
+      - NO_PROXY=localhost,127.0.0.1,.corp
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
