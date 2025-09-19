@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Docker代理完整配置脚本
-# 支持Ubuntu/CentOS/RHEL等Linux发行版
+# Docker proxy complete configuration script
+# Supports Ubuntu/CentOS/RHEL and other Linux distributions
 
 set -e
 
-# 颜色输出
+# Color output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# 打印带颜色的消息
+# Print colored messages
 print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -29,44 +29,44 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# 检查是否为root用户
+# Check if running as root user
 check_root() {
     if [[ $EUID -ne 0 ]]; then
-        print_error "此脚本需要root权限运行"
+        print_error "This script requires root privileges to run"
         exit 1
     fi
 }
 
-# 获取代理配置
+# Get proxy configuration
 get_proxy_config() {
-    echo "请输入代理服务器配置:"
-    read -p "代理服务器地址: " PROXY_HOST
-    read -p "代理服务器端口: " PROXY_PORT
-    read -p "用户名 (可选): " PROXY_USER
-    read -s -p "密码 (可选): " PROXY_PASS
+    echo "Please enter proxy server configuration:"
+    read -p "Proxy server address: " PROXY_HOST
+    read -p "Proxy server port: " PROXY_PORT
+    read -p "Username (optional): " PROXY_USER
+    read -s -p "Password (optional): " PROXY_PASS
     echo ""
-    read -p "不使用代理的地址 (默认: localhost,127.0.0.1,.corp): " NO_PROXY_INPUT
+    read -p "No proxy addresses (default: localhost,127.0.0.1,.corp): " NO_PROXY_INPUT
     
     NO_PROXY=${NO_PROXY_INPUT:-"localhost,127.0.0.1,.corp"}
     
-    # 构建代理URL
+    # Build proxy URL
     if [[ -n "$PROXY_USER" && -n "$PROXY_PASS" ]]; then
         PROXY_URL="http://${PROXY_USER}:${PROXY_PASS}@${PROXY_HOST}:${PROXY_PORT}"
     else
         PROXY_URL="http://${PROXY_HOST}:${PROXY_PORT}"
     fi
     
-    print_info "代理配置: $PROXY_URL"
+    print_info "Proxy configuration: $PROXY_URL"
 }
 
-# 配置Docker daemon代理 (systemd)
+# Configure Docker daemon proxy (systemd)
 configure_daemon_systemd() {
-    print_info "配置Docker daemon代理 (systemd)..."
+    print_info "Configuring Docker daemon proxy (systemd)..."
     
-    # 创建systemd目录
+    # Create systemd directory
     mkdir -p /etc/systemd/system/docker.service.d
     
-    # 创建代理配置文件
+    # Create proxy configuration file
     cat > /etc/systemd/system/docker.service.d/http-proxy.conf << EOF
 [Service]
 Environment="HTTP_PROXY=$PROXY_URL"
@@ -74,20 +74,20 @@ Environment="HTTPS_PROXY=$PROXY_URL"
 Environment="NO_PROXY=$NO_PROXY"
 EOF
     
-    print_success "Docker daemon systemd代理配置已创建"
+    print_success "Docker daemon systemd proxy configuration created"
 }
 
-# 配置Docker daemon代理 (daemon.json)
+# Configure Docker daemon proxy (daemon.json)
 configure_daemon_json() {
-    print_info "配置Docker daemon代理 (daemon.json)..."
+    print_info "Configuring Docker daemon proxy (daemon.json)..."
     
-    # 备份现有配置
+    # Backup existing configuration
     if [[ -f /etc/docker/daemon.json ]]; then
         cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
-        print_info "已备份现有daemon.json"
+        print_info "Existing daemon.json backed up"
     fi
     
-    # 创建或更新daemon.json
+    # Create or update daemon.json
     mkdir -p /etc/docker
     
     cat > /etc/docker/daemon.json << EOF
@@ -102,14 +102,14 @@ configure_daemon_json() {
 }
 EOF
     
-    print_success "Docker daemon.json代理配置已创建"
+    print_success "Docker daemon.json proxy configuration created"
 }
 
-# 配置Docker客户端代理
+# Configure Docker client proxy
 configure_client_proxy() {
-    print_info "配置Docker客户端代理..."
+    print_info "Configuring Docker client proxy..."
     
-    # 为当前用户配置
+    # Configure for current user
     if [[ -n "$SUDO_USER" ]]; then
         USER_HOME=$(eval echo ~$SUDO_USER)
         USER_NAME=$SUDO_USER
@@ -118,10 +118,10 @@ configure_client_proxy() {
         USER_NAME=$(whoami)
     fi
     
-    # 创建.docker目录
+    # Create .docker directory
     mkdir -p "$USER_HOME/.docker"
     
-    # 创建config.json
+    # Create config.json
     cat > "$USER_HOME/.docker/config.json" << EOF
 {
   "proxies": {
@@ -134,21 +134,21 @@ configure_client_proxy() {
 }
 EOF
     
-    # 设置正确的所有者
+    # Set correct ownership
     if [[ -n "$SUDO_USER" ]]; then
         chown -R $SUDO_USER:$SUDO_USER "$USER_HOME/.docker"
     fi
     
-    print_success "Docker客户端代理配置已创建"
+    print_success "Docker client proxy configuration created"
 }
 
-# 创建环境变量脚本
+# Create environment variable script
 create_env_script() {
-    print_info "创建环境变量脚本..."
+    print_info "Creating environment variable script..."
     
     cat > /etc/profile.d/docker-proxy.sh << EOF
 #!/bin/bash
-# Docker代理环境变量
+# Docker proxy environment variables
 export HTTP_PROXY="$PROXY_URL"
 export HTTPS_PROXY="$PROXY_URL"
 export NO_PROXY="$NO_PROXY"
@@ -158,79 +158,79 @@ export no_proxy="$NO_PROXY"
 EOF
     
     chmod +x /etc/profile.d/docker-proxy.sh
-    print_success "环境变量脚本已创建"
+    print_success "Environment variable script created"
 }
 
-# 重启Docker服务
+# Restart Docker service
 restart_docker() {
-    print_info "重启Docker服务..."
+    print_info "Restarting Docker service..."
     
     systemctl daemon-reload
     systemctl restart docker
     
     if systemctl is-active --quiet docker; then
-        print_success "Docker服务重启成功"
+        print_success "Docker service restarted successfully"
     else
-        print_error "Docker服务重启失败"
+        print_error "Docker service restart failed"
         return 1
     fi
 }
 
-# 验证配置
+# Verify configuration
 verify_configuration() {
-    print_info "验证Docker代理配置..."
+    print_info "Verifying Docker proxy configuration..."
     
-    # 检查Docker daemon状态
+    # Check Docker daemon status
     if ! systemctl is-active --quiet docker; then
-        print_error "Docker服务未运行"
+        print_error "Docker service is not running"
         return 1
     fi
     
-    # 测试Docker pull
-    print_info "测试Docker pull..."
+    # Test Docker pull
+    print_info "Testing Docker pull..."
     if docker pull hello-world:latest > /dev/null 2>&1; then
-        print_success "Docker pull测试成功"
+        print_success "Docker pull test successful"
     else
-        print_warning "Docker pull测试失败，请检查代理配置"
+        print_warning "Docker pull test failed, please check proxy configuration"
     fi
     
-    # 测试容器内网络访问
-    print_info "测试容器内网络访问..."
+    # Test container network access
+    print_info "Testing container network access..."
     if docker run --rm \
         -e HTTP_PROXY="$PROXY_URL" \
         -e HTTPS_PROXY="$PROXY_URL" \
         -e NO_PROXY="$NO_PROXY" \
         alpine:latest \
         sh -c "apk add --no-cache curl > /dev/null 2>&1 && curl -s https://httpbin.org/ip" > /dev/null 2>&1; then
-        print_success "容器内网络访问测试成功"
+        print_success "Container network access test successful"
     else
-        print_warning "容器内网络访问测试失败"
+        print_warning "Container network access test failed"
     fi
 }
 
-# 显示配置信息
+# Show configuration information
 show_configuration() {
-    print_info "Docker代理配置信息:"
-    echo "代理URL: $PROXY_URL"
-    echo "不代理地址: $NO_PROXY"
+    print_info "Docker proxy configuration information:"
+    echo "Proxy URL: $PROXY_URL"
+    echo "No proxy addresses: $NO_PROXY"
     echo ""
-    echo "配置文件位置:"
+    echo "Configuration file locations:"
     echo "- Systemd: /etc/systemd/system/docker.service.d/http-proxy.conf"
     echo "- Daemon: /etc/docker/daemon.json"
     echo "- Client: ~/.docker/config.json"
     echo "- Environment: /etc/profile.d/docker-proxy.sh"
 }
 
-# 主函数
+# Main function
 main() {
-    print_info "Docker代理配置脚本"
-    echo "===================="
+    print_info "Docker Proxy Configuration Script"
+    echo "=================================="
     
     check_root
     get_proxy_config
     
     echo ""
-    print_info "开始配置Docker代理..."
+    print_info "Starting Docker proxy configuration..."
     
     configure_daemon_systemd
     configure_daemon_json
@@ -244,9 +244,9 @@ main() {
     show_configuration
     
     echo ""
-    print_success "Docker代理配置完成！"
-    print_info "请重新登录或运行 'source /etc/profile.d/docker-proxy.sh' 来加载环境变量"
+    print_success "Docker proxy configuration completed!"
+    print_info "Please re-login or run 'source /etc/profile.d/docker-proxy.sh' to load environment variables"
 }
 
-# 运行主函数
+# Run main function
 main "$@"
