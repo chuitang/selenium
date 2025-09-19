@@ -1,0 +1,40 @@
+# 示例Dockerfile，展示如何在构建时使用代理
+
+# 使用基础镜像
+FROM ubuntu:20.04
+
+# 设置代理环境变量（构建时）
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
+
+ENV HTTP_PROXY=${HTTP_PROXY}
+ENV HTTPS_PROXY=${HTTPS_PROXY}
+ENV NO_PROXY=${NO_PROXY}
+
+# 更新包管理器并安装软件（会通过代理下载）
+RUN apt-get update && \
+    apt-get install -y \
+        curl \
+        wget \
+        vim \
+        git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# 配置应用程序代理设置
+RUN echo "export HTTP_PROXY=${HTTP_PROXY}" >> /etc/environment && \
+    echo "export HTTPS_PROXY=${HTTPS_PROXY}" >> /etc/environment && \
+    echo "export NO_PROXY=${NO_PROXY}" >> /etc/environment
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制应用文件
+COPY . .
+
+# 暴露端口
+EXPOSE 8080
+
+# 启动命令
+CMD ["bash"]
