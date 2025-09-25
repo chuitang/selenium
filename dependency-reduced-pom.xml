@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
-  <artifactId>jolt-transformation</artifactId>
-  <name>JOLT参数替换转换服务</name>
+  <artifactId>http-proxy-server</artifactId>
+  <name>HTTP代理服务</name>
   <version>1.0.0</version>
-  <description>使用JOLT库进行JSON参数替换的转换服务</description>
+  <description>无需认证的HTTP代理服务，转发请求到需要认证的下游代理</description>
   <build>
     <plugins>
       <plugin>
@@ -33,7 +33,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.example.jolt.JoltTransformationExample</mainClass>
+                  <mainClass>com.example.proxy.ProxyServerMain</mainClass>
                 </transformer>
               </transformers>
             </configuration>
