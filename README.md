@@ -8,7 +8,9 @@
 - **自动认证**: 自动处理与下游代理服务器的用户名密码认证
 - **高性能**: 基于Netty实现，支持高并发连接
 - **支持多种HTTP方法**: GET, POST, PUT, DELETE, HEAD, OPTIONS
+- **HTTPS支持**: 支持CONNECT方法，可代理HTTPS请求
 - **透明转发**: 完整转发HTTP请求和响应
+- **TCP隧道**: 支持CONNECT隧道模式，适用于HTTPS代理
 - **错误处理**: 完善的错误处理和日志记录
 
 ## 系统架构
@@ -83,7 +85,14 @@ chrome.exe --proxy-server="http://localhost:8080"
 
 #### curl命令示例
 ```bash
+# HTTP代理
 curl -x http://localhost:8080 http://example.com
+
+# HTTPS代理（使用CONNECT方法）
+curl -x http://localhost:8080 https://www.google.com
+
+# 指定代理协议
+curl --proxy-header "Proxy-Connection: keep-alive" -x http://localhost:8080 https://httpbin.org/get
 ```
 
 ## 配置文件

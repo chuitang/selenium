@@ -2,6 +2,7 @@ package com.example.proxy;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -77,17 +78,80 @@ public class ProxyRequestHandler extends SimpleChannelInboundHandler<HttpRequest
         logger.debug("收到客户端请求: {} {}", request.method(), request.uri());
         
         try {
-            // 转发请求到下游代理
-            FullHttpResponse response = forwardRequest(request);
-            
-            // 发送响应给客户端
-            ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+            // 检查是否为CONNECT请求
+            if (HttpMethod.CONNECT.equals(request.method())) {
+                handleConnectRequest(ctx, request);
+            } else {
+                // 处理普通HTTP请求
+                handleHttpRequest(ctx, request);
+            }
             
         } catch (Exception e) {
             logger.error("处理请求时发生错误: {}", e.getMessage(), e);
             sendErrorResponse(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR, 
                             "代理服务器内部错误: " + e.getMessage());
         }
+    }
+    
+    /**
+     * 处理CONNECT请求（用于HTTPS隧道）
+     */
+    private void handleConnectRequest(ChannelHandlerContext ctx, HttpRequest request) {
+        String uri = request.uri();
+        logger.debug("处理CONNECT请求: {}", uri);
+        
+        // 解析目标主机和端口
+        String[] hostPort = uri.split(":");
+        if (hostPort.length != 2) {
+            sendErrorResponse(ctx, HttpResponseStatus.BAD_REQUEST, "无效的CONNECT请求格式");
+            return;
+        }
+        
+        String targetHost = hostPort[0];
+        int targetPort;
+        try {
+            targetPort = Integer.parseInt(hostPort[1]);
+        } catch (NumberFormatException e) {
+            sendErrorResponse(ctx, HttpResponseStatus.BAD_REQUEST, "无效的端口号");
+            return;
+        }
+        
+        logger.info("建立CONNECT隧道: {}:{}", targetHost, targetPort);
+        
+        // 发送200 Connection established响应
+        FullHttpResponse response = new DefaultFullHttpResponse(
+                HttpVersion.HTTP_1_1, 
+                new HttpResponseStatus(200, "Connection established"));
+        response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+        
+        ctx.writeAndFlush(response).addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture future) {
+                if (future.isSuccess()) {
+                    // 移除HTTP编解码器，切换到隧道模式
+                    ctx.pipeline().remove("decoder");
+                    ctx.pipeline().remove("encoder");
+                    ctx.pipeline().remove("handler");
+                    
+                    // 添加隧道处理器
+                    ctx.pipeline().addLast(new TunnelHandler(config, targetHost, targetPort));
+                } else {
+                    logger.error("发送CONNECT响应失败", future.cause());
+                    ctx.close();
+                }
+            }
+        });
+    }
+    
+    /**
+     * 处理普通HTTP请求
+     */
+    private void handleHttpRequest(ChannelHandlerContext ctx, HttpRequest request) throws Exception {
+        // 转发请求到下游代理
+        FullHttpResponse response = forwardRequest(request);
+        
+        // 发送响应给客户端
+        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
     
     /**
