@@ -6,12 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>com.example</groupId>
-    <artifactId>jolt-transformation</artifactId>
+    <artifactId>http-proxy-server</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     
-    <name>JOLT参数替换转换服务</name>
-    <description>使用JOLT库进行JSON参数替换的转换服务</description>
+    <name>HTTP代理服务</name>
+    <description>无需认证的HTTP代理服务，转发请求到需要认证的下游代理</description>
     
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -77,6 +77,27 @@
             <artifactId>logback-classic</artifactId>
             <version>1.4.8</version>
         </dependency>
+        
+        <!-- HTTP Client for proxy requests -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.2.1</version>
+        </dependency>
+        
+        <!-- HTTP Core for server -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        
+        <!-- Netty for high-performance HTTP server -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.100.Final</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -114,7 +135,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.example.jolt.JoltTransformationExample</mainClass>
+                                    <mainClass>com.example.proxy.ProxyServerMain</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
